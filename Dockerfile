@@ -69,5 +69,6 @@ RUN mkdir /app && mkdir /app/public && chown -R apache:apache /app && chmod -R 7
 ADD start.sh /bootstrap/
 RUN chmod +x /bootstrap/start.sh
 RUN apk add php7-phalcon
+RUN apk add php7-gd php7-pecl-swoole --repository https://mirrors.aliyun.com/alpine/edge/testing/
 EXPOSE 80
 ENTRYPOINT ["/bootstrap/start.sh"]
