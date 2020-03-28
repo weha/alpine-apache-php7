@@ -3,7 +3,7 @@ MAINTAINER Wesley Haegens <wesley@weha.be>
 
 # Add basics first
 RUN apk update && apk upgrade && apk add --no-cache \
-	bash apache2 php7-apache2 curl ca-certificates openssl openssh git php7 php7-phar php7-json php7-iconv php7-openssl tzdata nano
+	bash apache2 apache2-http2 php7-apache2 curl ca-certificates openssl openssh git php7 php7-phar php7-json php7-iconv php7-openssl tzdata nano
 
 # Add Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
