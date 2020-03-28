@@ -1,0 +1,29 @@
+---
+
+# project information
+project_name: alpine-apache-php7
+project_url: "https://github.com/weha/alpine-apache-php7"
+project_logo: ""
+project_blurb: |
+  The [{{ project_name|capitalize }}]({{ project_url }}) container for your php webserving needs
+project_lsio_github_repo_url: "https://github.com/weha/{{ project_name }}"
+
+# optional container parameters
+opt_param_usage_include_env: true
+opt_param_env_vars:
+  - { env_var: "APACHE_SERVER_NAME", env_value: "myserver.domain.local", desc: "Apache server name" }
+  - { env_var: "PHP_MAX_EXECUTION_TIME", env_value: "", desc: "PHP Max execution time" }
+  - { env_var: "PHP_MEMORY_LIMIT", env_value: "", desc: "PHP Memory limit time" }
+  - { env_var: "PHP_ERROR_REPORTING", env_value: "", desc: "PHP Error reporting" }
+  - { env_var: "PHP_DISPLAY_ERRORS", env_value: "", desc: "PHP Display errors" }
+  
+# container parameters
+param_container_name: "{{ project_name }}"
+param_usage_include_vols: true
+param_volumes:
+  - { vol_path: "/var/www/html", vol_host_path: "<path to data>", desc: "Your website here" }
+
+param_usage_include_ports: true
+param_ports:
+  - { external_port: "80", internal_port: "81", port_desc: "Web serving port" }
+param_usage_include_env: false
