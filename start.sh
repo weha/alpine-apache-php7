@@ -68,6 +68,15 @@ if [ ! -z "$PHP_XDEBUG_ENABLED" ]
 		echo 'xdebug.remote_log=/tmp/xdebug.log' >> /etc/php7/php.ini;
 		echo 'xdebug.remote_autostart=true' >> /etc/php7/php.ini;
 fi
+# Set group id
+if [ "$PGID" ]; then
+    groupmod -g ${PGID} apache
+fi
+
+# Set user id
+if [ "$PUID" ]; then
+    usermod -u ${PUID} apache
+fi
 
 # Start (ensure apache2 PID not left behind first) to stop auto start crashes if didn't shut down properly
 
