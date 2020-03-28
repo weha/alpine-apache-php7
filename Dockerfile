@@ -20,7 +20,7 @@ RUN apk add --no-cache \
 	php7-dom \
 	php7-pdo \
 	php7-zip \
-	php7-mysqli \
+	php7-mysqlnd \
 	php7-sqlite3 \
 	php7-pdo_pgsql \
 	php7-bcmath \
@@ -44,7 +44,10 @@ RUN apk add --no-cache \
 	php7-intl \
 	php7-fileinfo \
 	php7-ldap \
-	php7-apcu
+	php7-apcu \
+	php7-imap \
+	php7-litespeed \
+	php7-pecl-imagick
 
 # Problems installing in above stack
 RUN apk add --no-cache php7-simplexml
@@ -53,12 +56,16 @@ RUN cp /usr/bin/php7 /usr/bin/php \
     && rm -f /var/cache/apk/*
 
 # Add apache to run and configure
-RUN sed -i "s/#LoadModule\ rewrite_module/LoadModule\ rewrite_module/" /etc/apache2/httpd.conf \
+RUN echo '*** Apache modules...' \
+    && sed -i "s/#LoadModule\ rewrite_module/LoadModule\ rewrite_module/" /etc/apache2/httpd.conf \
     && sed -i "s/#LoadModule\ session_module/LoadModule\ session_module/" /etc/apache2/httpd.conf \
     && sed -i "s/#LoadModule\ session_cookie_module/LoadModule\ session_cookie_module/" /etc/apache2/httpd.conf \
     && sed -i "s/#LoadModule\ session_crypto_module/LoadModule\ session_crypto_module/" /etc/apache2/httpd.conf \
     && sed -i "s/#LoadModule\ deflate_module/LoadModule\ deflate_module/" /etc/apache2/httpd.conf \
     && sed -i "s/#LoadModule\ unique_id_module/LoadModule\ unique_id_module/" /etc/apache2/httpd.conf \
+    && sed -i "s/#LoadModule\ cache_module/LoadModule\ cache_module/" /etc/apache2/httpd.conf \
+    && sed -i "s/#LoadModule\ cache_socache_module/LoadModule\ cache_socache_module/" /etc/apache2/httpd.conf \
+    && sed -i "s/#LoadModule\ http2_module/LoadModule\ http2_module/" /etc/apache2/httpd.conf \
     && sed -i "s#^DocumentRoot \".*#DocumentRoot \"/var/www/html\"#g" /etc/apache2/httpd.conf \
     && sed -i "s#/var/www/localhost/htdocs#/var/www/html#" /etc/apache2/httpd.conf \
     && printf "\n<Directory \"/var/www/html\">\n\tAllowOverride All\n</Directory>\n" >> /etc/apache2/httpd.conf
