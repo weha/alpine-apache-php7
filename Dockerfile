@@ -63,11 +63,6 @@ RUN sed -i "s/#LoadModule\ rewrite_module/LoadModule\ rewrite_module/" /etc/apac
     && sed -i "s#/var/www/localhost/htdocs#/var/www/html#" /etc/apache2/httpd.conf \
     && printf "\n<Directory \"/var/www/html\">\n\tAllowOverride All\n</Directory>\n" >> /etc/apache2/httpd.conf
     
-RUN adduser -u 82 -D -S -G www-data www-data \
-    && addgroup apache www-data \
-    && chown www-data:www-data /var/www/html \
-    && chmod 777 /var/www/html
-
 ADD start.sh /bootstrap/
 RUN chmod +x /bootstrap/start.sh
 
