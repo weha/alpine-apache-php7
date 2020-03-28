@@ -62,9 +62,15 @@ RUN sed -i "s/#LoadModule\ rewrite_module/LoadModule\ rewrite_module/" /etc/apac
     && sed -i "s#^DocumentRoot \".*#DocumentRoot \"/var/www/html\"#g" /etc/apache2/httpd.conf \
     && sed -i "s#/var/www/localhost/htdocs#/var/www/html#" /etc/apache2/httpd.conf \
     && printf "\n<Directory \"/var/www/html\">\n\tAllowOverride All\n</Directory>\n" >> /etc/apache2/httpd.conf
-    
+
+RUN mkdir /var/www/html && chown -R apache:apache /var/www/html && chmod -R 755 /var/www/html && mkdir bootstrap
+
 ADD start.sh /bootstrap/
 RUN chmod +x /bootstrap/start.sh
 
+VOLUME /var/www/html
+VOLUME /etc/apache2/
+
 EXPOSE 80
 ENTRYPOINT ["/bootstrap/start.sh"]
+WORKDIR /etc/apache2/
