@@ -1,18 +1,15 @@
-FROM alpine:edge
-MAINTAINER Thien Tran <fcduythien@gmail.com>
-
-# Add repos
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+FROM alpine:3.11
+MAINTAINER Wesley Haegens <wesley@weha.be>
 
 # Add basics first
-RUN apk update && apk upgrade && apk add \
-	bash apache2 php7-apache2 curl ca-certificates openssl openssh git php7 php7-phar php7-json php7-iconv php7-openssl tzdata openntpd nano
+RUN apk update && apk upgrade && apk add --no-cache \
+	bash apache2 php7-apache2 curl ca-certificates openssl openssh git php7 php7-phar php7-json php7-iconv php7-openssl tzdata nano
 
 # Add Composer
-RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Setup apache and php
-RUN apk add \
+RUN apk add --no-cache \
 	php7-ftp \
 	php7-xdebug \
 	php7-mcrypt \
@@ -50,7 +47,7 @@ RUN apk add \
 	php7-apcu
 
 # Problems installing in above stack
-RUN apk add php7-simplexml
+RUN apk add --no-cache php7-simplexml
 
 RUN cp /usr/bin/php7 /usr/bin/php \
     && rm -f /var/cache/apk/*
@@ -61,14 +58,18 @@ RUN sed -i "s/#LoadModule\ rewrite_module/LoadModule\ rewrite_module/" /etc/apac
     && sed -i "s/#LoadModule\ session_cookie_module/LoadModule\ session_cookie_module/" /etc/apache2/httpd.conf \
     && sed -i "s/#LoadModule\ session_crypto_module/LoadModule\ session_crypto_module/" /etc/apache2/httpd.conf \
     && sed -i "s/#LoadModule\ deflate_module/LoadModule\ deflate_module/" /etc/apache2/httpd.conf \
-    && sed -i "s#^DocumentRoot \".*#DocumentRoot \"/app/public\"#g" /etc/apache2/httpd.conf \
-    && sed -i "s#/var/www/localhost/htdocs#/app/public#" /etc/apache2/httpd.conf \
-    && printf "\n<Directory \"/app/web\">\n\tAllowOverride All\n</Directory>\n" >> /etc/apache2/httpd.conf
+    && sed -i "s/#LoadModule\ unique_id_module/LoadModule\ unique_id_module/" /etc/apache2/httpd.conf \
+    && sed -i "s#^DocumentRoot \".*#DocumentRoot \"/var/www/html\"#g" /etc/apache2/httpd.conf \
+    && sed -i "s#/var/www/localhost/htdocs#/var/www/html#" /etc/apache2/httpd.conf \
+    && printf "\n<Directory \"/var/www/html\">\n\tAllowOverride All\n</Directory>\n" >> /etc/apache2/httpd.conf
+    
+RUN adduser -u 82 -D -S -G www-data www-data \
+    && addgroup apache www-data \
+    && chown www-data:www-data /var/www/html \
+    && chmod 777 /var/www/html
 
-RUN mkdir /app && mkdir /app/public && chown -R apache:apache /app && chmod -R 755 /app && mkdir bootstrap
 ADD start.sh /bootstrap/
 RUN chmod +x /bootstrap/start.sh
-RUN apk add php7-phalcon
-RUN apk add php7-gd php7-pecl-swoole --repository https://mirrors.aliyun.com/alpine/edge/testing/
+
 EXPOSE 80
 ENTRYPOINT ["/bootstrap/start.sh"]
