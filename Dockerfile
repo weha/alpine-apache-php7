@@ -47,10 +47,13 @@ RUN apk add --no-cache \
 	php7-apcu \
 	php7-imap \
 	php7-litespeed \
+	php7-sockets \
+	php7-phalcon \
 	php7-pecl-imagick
 
 # Problems installing in above stack
 RUN apk add --no-cache php7-simplexml
+RUN apk add php7-gd php7-pecl-swoole --repository https://mirrors.aliyun.com/alpine/edge/testing/
 
 RUN cp /usr/bin/php7 /usr/bin/php \
     && rm -f /var/cache/apk/*
