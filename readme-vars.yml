@@ -12,10 +12,22 @@ project_lsio_github_repo_url: "https://github.com/weha/{{ project_name }}"
 opt_param_usage_include_env: true
 opt_param_env_vars:
   - { env_var: "APACHE_SERVER_NAME", env_value: "myserver.domain.local", desc: "Apache server name" }
+  - { env_var: "CONTAINER_TIMEZONE", env_value: "", desc: "Container timezone" }
+  - { env_var: "PHP_DATE_TIMEZONE", env_value: "", desc: "PHP timezone" }
   - { env_var: "PHP_MAX_EXECUTION_TIME", env_value: "", desc: "PHP Max execution time" }
+  - { env_var: "PHP_MAX_INPUT_TIME", env_value: "", desc: "PHP Max input time" }
+  - { env_var: "PHP_MAX_INPUT_VARS", env_value: "", desc: "PHP Max input vars" }
   - { env_var: "PHP_MEMORY_LIMIT", env_value: "", desc: "PHP Memory limit time" }
   - { env_var: "PHP_ERROR_REPORTING", env_value: "", desc: "PHP Error reporting" }
+  - { env_var: "PHP_ERROR_LOG", env_value: "", desc: "PHP Error reporting" }
+  - { env_var: "PHP_LOG_ERRORS", env_value: "", desc: "PHP Error reporting" }
   - { env_var: "PHP_DISPLAY_ERRORS", env_value: "", desc: "PHP Display errors" }
+  - { env_var: "PHP_ALLOW_URL_FOPEN", env_value: "", desc: "PHP url fopen" }
+  - { env_var: "PHP_ALLOW_URL_INCLUDE", env_value: "", desc: "PHP url include" }
+  - { env_var: "PHP_UPLOAD_TMP_DIR", env_value: "", desc: "PHP upload tmp dir" }
+  - { env_var: "PHP_POST_MAX_SIZE", env_value: "", desc: "PHP max post size" }
+  - { env_var: "PGID", env_value: "", desc: "Apache group id" }
+  - { env_var: "PUID", env_value: "", desc: "Apache user id" }
   
 # container parameters
 param_container_name: "{{ project_name }}"
@@ -25,5 +37,5 @@ param_volumes:
 
 param_usage_include_ports: true
 param_ports:
-  - { external_port: "80", internal_port: "81", port_desc: "Web serving port" }
+  - { external_port: "81", internal_port: "80", port_desc: "Web serving port" }
 param_usage_include_env: false
