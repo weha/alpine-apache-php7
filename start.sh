@@ -17,7 +17,7 @@ if [ ! -z "$APACHE_SERVER_NAME" ]
 fi
 
 # PHP Config
-if [ ! -z "$PHP_SENDMAIL" ]; then sed -i "s/\;\?\\s\?sendmail_path = .*/sendmail_path = $PHP_SENDMAIL/" /etc/php7/php.ini && echo "Set PHP sendmail_path = $PHP_SENDMAIL..."; fi
+if [ ! -z "$PHP_SENDMAIL" ]; then sed -i "s/\;\?\\s\?sendmail_path = .*/sendmail_path = ${PHP_SENDMAIL////\\/}/" /etc/php7/php.ini && echo "Set PHP sendmail_path = $PHP_SENDMAIL..."; fi
 if [ ! -z "$PHP_SHORT_OPEN_TAG" ]; then sed -i "s/\;\?\\s\?short_open_tag = .*/short_open_tag = $PHP_SHORT_OPEN_TAG/" /etc/php7/php.ini && echo "Set PHP short_open_tag = $PHP_SHORT_OPEN_TAG..."; fi
 if [ ! -z "$PHP_OUTPUT_BUFFERING" ]; then sed -i "s/\;\?\\s\?output_buffering = .*/output_buffering = $PHP_OUTPUT_BUFFERING/" /etc/php7/php.ini && echo "Set PHP output_buffering = $PHP_SHORT_OUTPUT_BUFFERING..."; fi
 if [ ! -z "$PHP_OPEN_BASEDIR" ]; then sed -i "s/\;\?\\s\?open_basedir = .*/open_basedir = $PHP_OPEN_BASEDIR/" /etc/php7/php.ini && echo "Set PHP open_basedir = $PHP_OPEN_BASEDIR..."; fi
