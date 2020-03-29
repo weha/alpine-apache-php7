@@ -13,6 +13,7 @@ opt_param_usage_include_env: true
 opt_param_env_vars:
   - { env_var: "APACHE_SERVER_NAME", env_value: "myserver.domain.local", desc: "Apache server name" }
   - { env_var: "CONTAINER_TIMEZONE", env_value: "", desc: "Container timezone" }
+  - { env_var: "PHP_SENDMAIL", env_value: "", desc: "PHP sendmail path" }
   - { env_var: "PHP_DATE_TIMEZONE", env_value: "", desc: "PHP timezone" }
   - { env_var: "PHP_MAX_EXECUTION_TIME", env_value: "", desc: "PHP Max execution time" }
   - { env_var: "PHP_MAX_INPUT_TIME", env_value: "", desc: "PHP Max input time" }
