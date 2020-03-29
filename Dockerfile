@@ -20,7 +20,7 @@ RUN apk add --no-cache \
 	php7-dom \
 	php7-pdo \
 	php7-zip \
-	php7-mysqlnd \
+	php7-mysqli \
 	php7-sqlite3 \
 	php7-pdo_pgsql \
 	php7-bcmath \
